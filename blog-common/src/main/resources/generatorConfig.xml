@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <!-- 配置文件路径 -->
+  <properties resource="generatorConfig.properties"/>
+
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+    <property name="javaFileEncoding" value="UTF-8"/>
+    <!-- 让自动生成的配置代码在遇到Mysql关键字的时候自动加上符号` -->
+    <property name="autoDelimitKeywords" value="true"></property>
+    <property name="beginningDelimiter" value="`"/>
+    <property name="endingDelimiter" value="`"/>
+
+    <plugin type="OverIsMergeablePlugin"/>
+    <plugin type="LombokPlugin"/>
+
+    <commentGenerator type="CustomGenerator">
+    </commentGenerator>
+
+    <jdbcConnection connectionURL="${jdbc.url}" driverClass="${jdbc.driver}" password="${jdbc.password}" userId="${jdbc.username}">
+      <!-- 加上可以获取到表注释,但 tinyint(1) 生成长度会变导致最终类型不对 -->
+      <!--<property name="useInformationSchema" value="true"></property>-->
+    </jdbcConnection>
+
+    <javaTypeResolver type="CustomJavaTypeResolver">
+      <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="${model.package}" targetProject="${java.target.project}">
+      <property name="enableSubPackages" value="true"/>
+      <property name="trimStrings" value="true"/>
+      <property name="javaExampleTargetPackage" value="${model.package}"/>
+      <property name="javaExampleTargetProject" value="${java.target.project}"/>
+      <property name="rootClass" value="${model.extendClass}"/>
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="${xml.package}" targetProject="${xml.target.project}">
+      <property name="enableSubPackages" value="true"/>
+    </sqlMapGenerator>
+
+    <javaClientGenerator targetPackage="${mapper.package}" targetProject="${java.target.project}" type="XMLMAPPER">
+      <property name="enableSubPackages" value="true"/>
+    </javaClientGenerator>
+
+    <table domainObjectName="BlogTag" tableName="blog_tag">
+    <generatedKey column="id" identity="true" sqlStatement="Mysql" type="post"/>
+    </table>
+  </context>
+</generatorConfiguration>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <jmxConfigurator/>
+    <springProperty scope="context" name="project" source="spring.application.name"/>
+    <!--<conversionRule conversionWord="ip" converterClass="com.yxzq.storage.server.util.LogIpConverter" />-->
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/opt/logs/@project.artifactId@.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/opt/logs/@project.artifactId@.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    #if("dev"=="${spring.profiles.active}")
+        <logger name="com.yxzq" level="DEBUG"/>
+        <logger name="com.yxzq.product.mapper" level="DEBUG" />
+        <logger name="org.mybatis" level="DEBUG"/>
+        <logger name="java.sql.Connection" level="DEBUG"/>
+        <logger name="java.sql.Statement" level="DEBUG"/>
+        <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+    #else
+        <logger name="com.yxzq" level="INFO"/>
+        <logger name="com.yxzq.product.mapper" level="DEBUG" />
+        <logger name="org.mybatis" level="INFO"/>
+        <logger name="java.sql.Connection" level="INFO"/>
+        <logger name="java.sql.Statement" level="INFO"/>
+        <logger name="java.sql.PreparedStatement" level="INFO"/>
+    #end
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="com.xxl.job" level="ERROR"/>
+
+    <!-- root -->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFile"/>
+    </root>
+</configuration>

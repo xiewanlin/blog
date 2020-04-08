@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: @project.artifactId@
+  profiles:
+    active: @profiles.active@
+
+app:
+  id: @project.artifactId@
+apollo:
+  meta: @apollo.meta@
+  bootstrap:
+    enabled: true
+    namespaces: application
